@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h1>Johansen Cointegration Test Results (Testing for Zero Cointegrating Relationships):</h1>
+<div>
+    <!-- using django template tags to display results -->
+    {% for stock_pairs in stock_dict %}
+        {% if stock_pairs.flag == True %}
+            <div>Pair {{stock_pairs.stock1}} and {{stock_pairs.stock2}} are cointegrated</div>
+            <div>Trace Statistics {{stock_pairs.trace_stat}}</div>
+            <div>Critical Statistics {{stock_pairs.critical_stat}}</div>
+            <br><br>
+        {% else %}
+            <div>Pair {{stock_pairs.stock1}} and {{stock_pairs.stock2}} are not cointegrated</div>
+            <div>Trace Statistics {{stock_pairs.trace_stat}}</div>
+            <div>Critical Statistics {{stock_pairs.critical_stat}}</div>
+            <br><br>
+        {% endif %}
+    {% endfor %}
+</div>
+</body>
+</html>
