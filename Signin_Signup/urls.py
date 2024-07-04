@@ -3,6 +3,7 @@ from django.urls import path, include
 from . import views
 
 urlpatterns = [
+    #hi
     # using the django auth app to configure signin-signup routes and gaining access to django administration 
     path("admin/", admin.site.urls),
     # when we access this url path, we are redirected to the page? 
