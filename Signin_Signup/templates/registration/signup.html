@@ -72,7 +72,11 @@ button:hover {
 }
 </style>
 <body>
-
+  {% for message in messages %}
+  <div>
+      <strong>Message : </strong> {{message}}
+  </div>
+  {% endfor %}
 <form action="/signup" method="post" style="border:1px solid #ccc">
     {% csrf_token %}
   <div class="container">

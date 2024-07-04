@@ -12,7 +12,7 @@
         <h2>Main Page!</h2>
         {% if user.is_authenticated %}
         <h3>Hey {{fname}}</h3>
-        <h4>You have been successfully loggen in</h4>
+        <h4>You have been successfully logged in</h4>
         <button type="submit"><a href="/signout">Signout</a></button>
         {% else %}
         <button type="submit"><a href="/signup">Signup</a></button>
