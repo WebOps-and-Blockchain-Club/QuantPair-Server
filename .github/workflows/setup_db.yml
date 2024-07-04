@@ -1,0 +1,36 @@
+name: Setup PostgreSQL Database
+
+on: [push, pull_request]
+
+jobs:
+  setup-db:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install PostgreSQL client
+        run: sudo apt-get install -y postgresql-client
+
+      - name: Run database initialization script
+        env:
+          PGPASSWORD: postgres
+        run: |
+          chmod +x ./init_db.sh
+          ./init_db.sh
