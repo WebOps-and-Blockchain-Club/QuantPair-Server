@@ -46,8 +46,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # Registering our application in the project
     'JohansenTest',
-    #Registering the signin-signup application in project
+    # Registering the signin-signup application in project
     'Signin_Signup',
+    # registering the rest framework for api handling
+    'rest_framework'
 ]
 
 MIDDLEWARE = [

@@ -13,8 +13,8 @@ class Sectors(models.Model) :
 class Stocks(models.Model) :
     name = models.CharField(max_length=255)
     # representing co-integrated stocks in terms of a json data with keys as
-        # name : '<some stock name>'
-        # stock_id : '<stock id>'
+    # name : '<some stock name>'
+    # stock_id : '<stock id>'
     coIntegratedStock = models.JSONField(null=True)
     # if owner of existing object gets deleted, set this field to null
     # we are using many-to-one relationship here as each stock has one sector
