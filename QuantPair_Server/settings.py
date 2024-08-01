@@ -49,7 +49,9 @@ INSTALLED_APPS = [
     # Registering the signin-signup application in project
     'Signin_Signup',
     # registering the rest framework for api handling
-    'rest_framework'
+    'rest_framework',
+    # for token authentication
+    'rest_framework.authtoken',
 ]
 
 MIDDLEWARE = [
@@ -140,3 +142,18 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# changing the default authentication model from User in django.contrib.auth.models to CustomUser defined in Signin_Signup.models
+AUTH_USER_MODEL = 'Signin_Signup.CustomUser'
+
+# authentication using a token, can be used for session logging too
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAdminUser',
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ],
+}
