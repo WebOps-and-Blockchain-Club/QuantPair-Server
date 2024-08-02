@@ -7,12 +7,27 @@ from django.template import loader
 import numpy as np
 import pandas as pd
 import yfinance as yf
+import requests
 from statsmodels.tsa.vector_ar.vecm import coint_johansen
 
 # defining a view function which is triggered once appropriate url is entered
 def JohansenTest(request) : 
-    # manually setting pairs of stock
-    stock_pairs = [('JPM', 'BAC'), ('MS', 'WFC'), ('BAC', 'USB'), ('JPM', 'WFC')]
+
+    url = "https://financialmodelingprep.com/api/v3/stock-screener?sector=&apikey=pvDMXekTNwD8iPfQ9K8aCnLuXyvAUvYT"
+    response = requests.get(url)
+    if response.status_code == 200:
+        stock_data = response.json()
+        symbols = [company['symbol'] for company in stock_data]
+    else:
+        print(f"Error. Status code: {response.status_code}")
+    
+    stock_pairs=[]
+    for j in range(len(symbols)):
+        for k in range(j+1,len(symbols)):
+            pair = (symbols[j] ,symbols[k])
+            stock_pairs.append(pair)
+    
+    print(stock_pairs)
 
     # range of dates where we are comparing for cointegration
     start_date = '2010-01-01'
