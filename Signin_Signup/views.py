@@ -1,9 +1,9 @@
 from rest_framework import status
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, login, logout
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from django.core.exceptions import ObjectDoesNotExist
 from .serializers import CustomUserSerializer
 from .models import CustomUser
@@ -25,6 +25,7 @@ def register_user(request) :
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 @api_view(['POST'])
+@permission_classes([])
 def user_login(request) :
     if request.method == "POST" :
         # getting the username and password fields from the data sent
@@ -42,17 +43,19 @@ def user_login(request) :
             user = authenticate(username=username, password=password)
 
         if user:
-            token, _ = Token.objects.get_or_create(user=user)
+            login(request, user)
+            token, created = Token.objects.get_or_create(user=user)
             return Response({'token': token.key}, status=status.HTTP_200_OK)
 
         return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
         
 @api_view(['POST'])
-@permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticatedOrReadOnly])
 def user_logout(request) : 
     if request.method == "POST" :
         try:
             # deleting the user token to log the user out
+            logout(request)
             request.user.auth_token.delete()
             # success message 
             return Response({'message': 'Successfully logged out.'}, status=status.HTTP_200_OK)
