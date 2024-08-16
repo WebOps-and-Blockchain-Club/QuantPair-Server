@@ -11,6 +11,7 @@ from .models import CustomUser
 # defining custom api views using api_view as ViewSets dont provide flexibility with handling of registering users 
 # function based api views using the django decorator api_view which gives metadata indicating this method is api-view
 @api_view(['POST'])
+@permission_classes([])
 def register_user(request) : 
     # if POST request is made
     if request.method == "POST" :
@@ -62,5 +63,32 @@ def user_logout(request) :
         except Exception as e:
             # error handling
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+@api_view(['POST'])
+@permission_classes([])
+def user_forgot_password(request) :
+    if request.method == 'POST' :
+        username = request.data.get('username')
+        email = request.data.get('email')
+        password = request.data.get('password')
+
+        user = None
+        if '@' in username :
+            try :
+                user = CustomUser.objects.get(email=username)
+            except ObjectDoesNotExist : 
+                pass
+        
+        # do something with email ?
+        if not user : 
+            user = CustomUser.objects.get(username=username)
+        
+        if user :
+            user.set_password(password)
+            user.save()
+            return Response({'message' : 'Successfully changed password'}, status=status.HTTP_200_OK)
+        else :
+            return Response({'message' : 'Email or username not found'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
 
 
