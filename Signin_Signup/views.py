@@ -56,8 +56,8 @@ def user_logout(request) :
     if request.method == "POST" :
         try:
             # deleting the user token to log the user out
-            logout(request)
             request.user.auth_token.delete()
+            logout(request)
             # success message 
             return Response({'message': 'Successfully logged out.'}, status=status.HTTP_200_OK)
         except Exception as e:
