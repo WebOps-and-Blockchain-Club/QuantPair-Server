@@ -48,6 +48,8 @@ INSTALLED_APPS = [
     'JohansenTest',
     # Registering the signin-signup application in project
     'Signin_Signup',
+    # Registering the wishlish app
+    'WishList',
     # registering the rest framework for api handling
     'rest_framework',
     # for token authentication
