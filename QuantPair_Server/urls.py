@@ -7,4 +7,6 @@ urlpatterns = [
     path(r'JohansenTest-api/', include('JohansenTest.urls')),
     # adding the path of our Signin_Sugnup to the server urls
     path(r'Users-api/', include('Signin_Signup.urls')),
+
+    path(r'WishList/', include('WishList.urls')),
 ]
