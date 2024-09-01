@@ -9,6 +9,7 @@ urlpatterns = [
     path('register', views.register_user, name='register'),
     path('logout', views.user_logout, name='logout'),
     path('reset', views.user_forgot_password, name = 'reset'),
+    path('user', views.getUserDetails, name='user'),
     # when we access this url path, we are redirected to the page 
     path('', views2.home, name="home"),
     path('signin', views2.signin, name="signin"),

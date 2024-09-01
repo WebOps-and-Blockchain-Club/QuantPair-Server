@@ -89,6 +89,12 @@ def user_forgot_password(request) :
             return Response({'message' : 'Successfully changed password'}, status=status.HTTP_200_OK)
         else :
             return Response({'message' : 'Email or username not found'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
 
+@api_view(['GET'])
+@permission_classes([])
+def getUserDetails(request) : 
+    if request.method == 'GET' :
+        return Response({'user_details' : request.user.id}, status=status.HTTP_200_OK)
 
 
