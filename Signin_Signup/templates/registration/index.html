@@ -1,0 +1,22 @@
+<html>
+    <head>
+        <title>Main Page</title>
+    </head>
+    <body>
+        {% for message in messages %}
+        <div>
+            <strong>Message : </strong> {{message}}
+        </div>
+        {% endfor %}
+
+        <h2>Main Page!</h2>
+        {% if user.is_authenticated %}
+        <h3>Hey {{fname}}</h3>
+        <h4>You have been successfully logged in</h4>
+        <button type="submit"><a href="/signout">Signout</a></button>
+        {% else %}
+        <button type="submit"><a href="/signup">Signup</a></button>
+        <button type="submit"><a href="/signin">Signin</a></button>
+        {% endif %}
+    </body>
+</html>

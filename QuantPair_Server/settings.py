@@ -11,10 +11,17 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+from .info import *
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# automation for email
+EMAIL_USE_TLS = EMAIL_USE_TLS
+EMAIL_HOST = EMAIL_HOST
+EMAIL_HOST_USER = EMAIL_HOST_USER
+EMAIL_HOST_PASSWORD = EMAIL_HOST_PASSWORD
+EMAIL_PORT = EMAIL_PORT
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
@@ -39,6 +46,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # Registering our application in the project
     'JohansenTest',
+    # Registering the signin-signup application in project
+    'Signin_Signup',
+    # Registering the wishlish app
+    'WishList',
+    # registering the rest framework for api handling
+    'rest_framework',
+    # for token authentication
+    'rest_framework.authtoken',
 ]
 
 MIDDLEWARE = [
@@ -76,10 +91,16 @@ WSGI_APPLICATION = 'QuantPair_Server.wsgi.application'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
+    # changed default database to postgre
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'QuantPair_DB',
+        'USER': 'postgres',
+        'PASSWORD': 'ovets',
+        'HOST': '127.0.0.1',
+        'PORT': '5432'
     }
+    
 }
 
 
@@ -123,3 +144,17 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# changing the default authentication model from User in django.contrib.auth.models to CustomUser defined in Signin_Signup.models
+AUTH_USER_MODEL = 'Signin_Signup.CustomUser'
+
+# authentication using a token, can be used for session logging too
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ],
+}

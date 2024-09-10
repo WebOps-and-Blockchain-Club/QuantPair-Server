@@ -1,3 +1,6 @@
 from django.contrib import admin
+from .models import Sectors, Stocks
 
-# Register your models here.
+# allowing django admin the access to modify these tables
+admin.site.register(Sectors)
+admin.site.register(Stocks)

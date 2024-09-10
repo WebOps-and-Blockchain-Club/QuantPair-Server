@@ -1,0 +1,16 @@
+name: Install PostgreSQL
+
+on: [push, pull_request]
+
+jobs:
+  install:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Run installation script
+        run: |
+          chmod +x ./install_postgresql.sh
+          ./install_postgresql.sh

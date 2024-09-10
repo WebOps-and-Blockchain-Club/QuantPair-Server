@@ -1,0 +1,2 @@
+works with bearer token authenticator but does not work otherwise
+we have to fill superuser data into bearer auth and then proceed
