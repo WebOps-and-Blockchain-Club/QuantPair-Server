@@ -15,13 +15,13 @@ def viewSector(request) :
 
         return Response(queryset.values(), status=status.HTTP_200_OK)
 
-@api_view(['GET'])
+@api_view(['POST'])
 @permission_classes([])
 def viewStock_Sector(request) : 
-    if request.method == 'GET' :
+    if request.method == 'POST' :
         fields = request.data
         sector = fields['sector']
-        queryset = Stocks.objects.filter(sector=sector)
+        queryset = Stocks.objects.filter(sector__name=sector)
 
         return Response(queryset.values(), status=status.HTTP_200_OK)
     
@@ -35,17 +35,27 @@ def fillSomeStock(request) :
         response = requests.get(url)
 
         if response.status_code == 200 :
-            query_sector = Sectors.objects.filter(name=sector)
-            data = response.json()
+            query_sector = Sectors.objects.get(name=sector)
+            fields = response.json()
             iter = 0
-            for obj in data :
+            for obj in fields :
+                temp = {}
+                temp['name'] = obj['symbol']
+                temp['coIntegratedStock'] = {}
+                temp['sector'] = query_sector.pk
                 iter += 1
-                # stock = Stocks.objects.create(name = obj.symbol, cointegrated_stock = {}, sector = query_sector)
-                # stock.save()
+                serializer = StockSerializer(data=temp)
+                if(serializer.is_valid()) :
+                    serializer.save()
+                    print("VALID")
+                    # pass
+                else :
+                    # print("NOT VALID")
+                    print(serializer.errors)
                 if iter > 9 :
-                    break
+                    return Response({'message' : 'Successfully filled table'}, status=status.HTTP_200_OK)
 
-            return Response({'message' : 'Successfully filled table'}, status=status.HTTP_200_OK)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         
 @api_view(['GET'])
 @permission_classes([])
@@ -57,12 +67,22 @@ def fillStocks(request) :
         response = requests.get(url)
 
         if response.status_code == 200 :
-            query_sector = Sectors.objects.filter(name=sector)
+            query_sector = Sectors.objects.get(name=sector)
             data = response.json()
             for obj in data :
-                # stock = Stocks.objects.create(name = obj.symbol, cointegrated_stock = {}, sector = query_sector)
-                # stock.save()
-                continue
+                temp = {}
+                temp['name'] = obj['symbol']
+                temp['coIntegratedStock'] = {}
+                temp['sector'] = query_sector.pk
+                iter += 1
+                serializer = StockSerializer(data=temp)
+                if(serializer.is_valid()) :
+                    serializer.save()
+                    print("VALID")
+                    # pass
+                else :
+                    # print("NOT VALID")
+                    print(serializer.errors)
 
             return Response({'message' : 'Successfully filled table'}, status=status.HTTP_200_OK)
 
