@@ -5,6 +5,7 @@ from rest_framework.permissions import IsAuthenticated
 from .models import Sectors, Stocks
 from .serializers import SectorSerializer, StockSerializer
 import requests
+import random
 
 
 @api_view(['GET'])
@@ -30,7 +31,7 @@ def viewStock_Sector(request) :
 def fillSomeStock(request) : 
     if request.method == 'GET' : 
         apiKey = "pvDMXekTNwD8iPfQ9K8aCnLuXyvAUvYT"
-        sector = "Financial Services"
+        sector = "Energy"
         url = f"https://financialmodelingprep.com/api/v3/stock-screener?sector={sector}&apikey={apiKey}"
         response = requests.get(url)
 
@@ -41,7 +42,7 @@ def fillSomeStock(request) :
             for obj in fields :
                 temp = {}
                 temp['name'] = obj['symbol']
-                temp['coIntegratedStock'] = {}
+                temp['coIntegratedStock'] = {"stk_1" : random.random(), "stk_2" : random.random()}
                 temp['sector'] = query_sector.pk
                 iter += 1
                 serializer = StockSerializer(data=temp)
@@ -52,7 +53,7 @@ def fillSomeStock(request) :
                 else :
                     # print("NOT VALID")
                     print(serializer.errors)
-                if iter > 9 :
+                if iter > 50 :
                     return Response({'message' : 'Successfully filled table'}, status=status.HTTP_200_OK)
 
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
