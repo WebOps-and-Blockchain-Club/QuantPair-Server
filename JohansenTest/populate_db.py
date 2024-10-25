@@ -1,4 +1,5 @@
 import requests
+import random
 import json
 from .models import Sectors, Stocks
 
@@ -15,6 +16,7 @@ def fillSector (request) :
 
 # adding stocks to the stocks database
 def fillStocks (request) :
+    # sector = "Technology"
     apiKey = "pvDMXekTNwD8iPfQ9K8aCnLuXyvAUvYT"
     # iterating through the list of sectors
     for sector in list :
@@ -23,15 +25,20 @@ def fillStocks (request) :
         # getting the response
         response = requests.get(url)
         # we check if the response is ok
+        count = 0
         if response.status_code == 200 :
             # get the sector from sectors model in database to associate it with our stock into consideration
             query_sector = Sectors.objects.filter(name=sector)
             # getting json data
             data = response.json()
+
             # iterating through the json data and creating a new stock, filling the stocks row
             for obj in data :
-                stock = Stocks.objects.create(name=obj.symbol, cointegrated_stock={}, sector=query_sector)
+                stock = Stocks.objects.create(name=obj.symbol, cointegrated_stock={"stk_1" : random.random(), "stk_2" : random.random()}, sector=query_sector)
                 stock.save()
+                count += 1
+                if count > 50 :
+                    break
 
 
 

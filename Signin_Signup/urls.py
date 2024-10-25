@@ -1,10 +1,8 @@
-from django.urls import path, include
-from django.contrib.auth.models import User
-from rest_framework import routers
+from django.urls import path
 from . import views, views2
 
 urlpatterns = [
-    # gaining access to all registered router urls at endpoint <localhost>:<port>/User-api/<>
+    # gaining access to all registered  urls at endpoint <localhost>:<port>/User-api/<>
     path('login', views.user_login, name='login'),
     path('register', views.register_user, name='register'),
     path('logout', views.user_logout, name='logout'),
