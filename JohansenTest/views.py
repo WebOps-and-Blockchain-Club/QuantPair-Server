@@ -26,6 +26,16 @@ def viewStock_Sector(request) :
 
         return Response(queryset.values(), status=status.HTTP_200_OK)
     
+@api_view(['POST'])
+@permission_classes([])
+def viewStock(request) : 
+    if request.method == 'POST' :
+        fields = request.data
+        symbol = fields['symbol']
+        queryset = Stocks.objects.filter(name=symbol)
+
+        return Response(queryset.values(), status=status.HTTP_200_OK)
+
 @api_view(['GET'])
 @permission_classes([])
 def fillSomeStock(request) : 
