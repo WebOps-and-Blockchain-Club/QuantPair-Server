@@ -94,9 +94,10 @@ DATABASES = {
     # changed default database to postgre
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
+        
         'NAME': 'QuantPair_DB',
         'USER': 'postgres',
-        'PASSWORD': 'ovets',
+        'PASSWORD': '84321605',
         'HOST': '127.0.0.1',
         'PORT': '5432'
     }
